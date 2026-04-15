@@ -1,136 +1,114 @@
-<img align="left" src="Development/Images/Logo.png" width="100px"/>
-<h1>Flax Engine</h1>
-<a href="https://marketplace.visualstudio.com/items?itemName=Flax.FlaxVS"><img src="https://img.shields.io/badge/vs-extension-green.svg"/></a>
-<a href="https://flaxengine.com/discord"><img src="https://discordapp.com/api/guilds/437989205315158016/widget.png"/></a>
+﻿# Claude Game Studio — Flax Edition
 
-Flax Engine is a high quality modern 3D game engine written in C++ and C#.
-From stunning graphics to powerful scripts, it's designed for fast workflow with many ready-to-use features waiting for you right now. To learn more see the website ([www.flaxengine.com](https://flaxengine.com)).
+AI-driven game development framework built on [Flax Engine](https://flaxengine.com) 1.11. Forked and adapted from [Claude-Code-Game-Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) with curated resources from [awesome-flax](https://github.com/kacevoid/awesome-flax).
 
-This repository contains full source code of the Flax Engine (excluding NDA-protected platforms support). Documentation source is also available in a separate repository. Anyone is welcome to contribute or use the modified source in Flax-based games.
+A coordinated multi-agent architecture for building a **3D linear fantasy action-adventure game** using Claude Code as the development team.
 
-# Development
+## What's Included
 
-* [Homepage](https://flaxengine.com)
-* [Dev Blog](https://flaxengine.com/blog)
-* [Documentation](https://docs.flaxengine.com)
-* [Forum](https://forum.flaxengine.com)
-* [Roadmap](https://trello.com/b/NQjLXRCP/flax-roadmap)
+| Component | Count | Description |
+|-----------|-------|-------------|
+| **Agents** | 28 | Specialized AI roles - directors, designers, programmers, artists, QA |
+| **Skills** | 26 | Workflow commands from `/start` through `/release-checklist` |
+| **Rules** | 8 | Path-scoped coding standards for C#, shaders, tests, design docs |
+| **Hooks** | 12 | Automated validation for commits, assets, sessions |
+| **Templates** | 10 | GDD, ADR, sprint plan, UX spec, art bible, epic, story, and more |
+| **Game Scripts** | 8 | Starter C# scripts - player, camera, combat, audio, pooling |
 
-# Screenshots
+## Quick Start
 
-![pbr-rendering](Development/Images/flax-pic-2.jpg "PBR Rendering and Global Illumination")
-![rendering](Development/Images/flax-pic-1.jpg "Rendering")
-![performance](Development/Images/flax-pic-3.jpg "High Performance")
+```
+/start          - Detect project state and get oriented
+/brainstorm     - Design your game concept interactively
+/help           - See all 26 available skills
+```
 
-# Getting started
+### Recommended Workflow
 
-Follow the instructions below to compile and run the engine from source.
+```
+/start -> /brainstorm -> /art-bible -> /map-systems
+    -> /design-system -> /create-architecture -> /gate-check
+    -> /create-epics -> /create-stories -> /sprint-plan
+    -> /dev-story -> /code-review -> /smoke-check
+    -> /milestone-review -> /release-checklist
+```
 
-## Windows
+## Project Structure
 
-* Install Visual Studio 2022 or newer
-* Install Windows 8.1 SDK or newer (via Visual Studio Installer)
-* Install Microsoft Visual C++ 2015 v140 toolset or newer (via Visual Studio Installer)
-* Install .NET 8 or 9 SDK for **Windows x64** (via Visual Studio Installer or [from web](https://dotnet.microsoft.com/en-us/download/dotnet/8.0))
-* Install Git with LFS
-* Clone repo (with LFS)
-* Run **GenerateProjectFiles.bat**
-* Open `Flax.sln` and set solution configuration to **Editor.Development** and solution platform to **Win64**
-* Set Flax (C++) or FlaxEngine (C#) as startup project
-* Compile Flax project (hit F7 or CTRL+Shift+B)
-* Optionally set Debug Type to **Managed Only (.NET Core)** to debug C#-only, or **Mixed (.NET Core)** to debug both C++ and C#
-* Run Flax (hit F5 key)
+```
+.claude/
+  agents/        - 28 AI agent definitions (flax-specialist, gameplay-programmer, etc.)
+  skills/        - 26 workflow skills (/brainstorm, /dev-story, /gate-check, etc.)
+  rules/         - 8 path-scoped coding standards
+  hooks/         - 12 validation and session hooks
+  docs/          - Core docs, templates, technical preferences
+GameProject/
+  Source/Game/    - C# gameplay scripts organized by system
+    Core/        - GameManager, EventBus
+    Player/      - PlayerController, ThirdPersonCamera
+    Combat/      - HealthComponent
+    World/       - InteractionSystem
+    Audio/       - AudioManager
+    Utility/     - ObjectPool
+  Content/       - Game assets (scenes, prefabs, materials, etc.)
+design/          - Game design documents
+production/      - Sprints, epics, stories, bugs, session state
+tests/           - Unit and integration tests
+prototypes/      - Throwaway mechanic prototypes
+```
 
-## Linux
+## Agents
 
-* Install Visual Studio Code
-* Install .NET 8 or 9 SDK ([https://dotnet.microsoft.com/en-us/download/dotnet/8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0))
-  * Ubuntu: `sudo apt install dotnet-sdk-8.0`
-  * Fedora: `sudo dnf install dotnet-sdk-8.0`
-  * Arch: `sudo pacman -S dotnet-sdk-8.0 dotnet-runtime-8.0 dotnet-targeting-pack-8.0 dotnet-host`
-* Install Vulkan SDK ([https://vulkan.lunarg.com/](https://vulkan.lunarg.com/))
-  * Ubuntu: `sudo apt install vulkan-sdk` (deprecated, follow official docs)
-  * Fedora: `sudo dnf install vulkan-headers vulkan-tools vulkan-validation-layers`
-  * Arch: `sudo pacman -S vulkan-headers vulkan-tools vulkan-validation-layers`
-* Install Git with LFS
-  * Ubuntu: `sudo apt-get install git git-lfs`
-  * Arch: `sudo pacman -S git git-lfs`
-  * `git-lfs install`
-* Install the required packages:
-  * Ubuntu: `sudo apt-get install libx11-dev libxcursor-dev libxinerama-dev zlib1g-dev`
-  * Fedora: `sudo dnf install libX11-devel libXcursor-devel  libXinerama-devel ghc-zlib-devel`
-  * Arch: `sudo pacman -S base-devel libx11 libxcursor libxinerama zlib`
-* Install Clang compiler (version 14 or later):
-  * Ubuntu: `sudo apt-get install clang lldb lld`
-  * Fedora: `sudo dnf install clang llvm lldb lld`
-  * Arch: `sudo pacman -S clang lldb lld`
-* Clone the repository (with LFS)
-  * git-lfs clone https://github.com/FlaxEngine/FlaxEngine.git
-* Run `./GenerateProjectFiles.sh`
-* Open workspace with Visual Code
-* Build and run (configuration and task named `Flax|Editor.Linux.Development|x64`)
+Three-tier hierarchy for organized development:
 
-## Mac
+**Directors** - Creative Director, Technical Director, Producer
 
-* Install XCode
-* Install .NET 8 or 9 SDK ([https://dotnet.microsoft.com/en-us/download/dotnet/8.0](https://dotnet.microsoft.com/en-us/download/dotnet/8.0))
-* Install Vulkan SDK ([https://vulkan.lunarg.com/](https://vulkan.lunarg.com/))
-* Clone repo (with LFS)
-* Run `GenerateProjectFiles.command`
-* Open workspace with XCode or Visual Studio Code
-* Build and run (configuration `Editor.Mac.Development`)
+**Leads** - Game Designer, Lead Programmer, Art Director, Audio Director, Narrative Director, QA Lead
 
-#### Troubleshooting
+**Specialists** - Flax Specialist, Gameplay Programmer, Engine Programmer, AI Programmer, UI Programmer, Tools Programmer, Systems Designer, Level Designer, Technical Artist, Writer, World Builder, Sound Designer, UX Designer, Economy Designer, Accessibility Specialist, Performance Analyst, QA Tester, Prototyper, Release Manager
 
-* `Could not execute because the specified command or file was not found.`
+## Starter Scripts
 
-Restart PC - ensure DotNet is added to PATH for command line tools execution.
+| Script | Purpose |
+|--------|---------|
+| `GameManager` | Singleton game state management with scene transitions |
+| `EventBus` | Decoupled cross-system messaging (publish/subscribe) |
+| `PlayerController` | Third-person character movement with sprint and jump |
+| `ThirdPersonCamera` | Orbit camera with collision avoidance |
+| `HealthComponent` | Reusable damage/heal system for any actor |
+| `InteractionSystem` | IInteractable interface with proximity detection |
+| `AudioManager` | Music, ambient, SFX, and UI sound management |
+| `ObjectPool` | Generic actor pooling to reduce GC pressure |
 
-* `Microsoft.NET.TargetFrameworkInference.targets(141,5): error NETSDK1045: The current .NET SDK does not support targeting .NET 8.0.  Either target .NET 5.0 or lower, or use a version of the .NET SDK that supports .NET 8.0`
+## Recommended Flax Plugins
 
-Use Visual Studio 2022, older versions are not supported by .NET SDK 8.
+From [awesome-flax](https://github.com/kacevoid/awesome-flax):
 
-* `Building for Windows without Vulkan rendering backend (Vulkan SDK is missing)`
+- **CharacterControllerPro** - Modular character controller
+- **SpringArmPlugin** - Camera spring arm (wall clipping prevention)
+- **FlaxPrototypeTools** - Level blockout primitives
+- **FTween** - Tweening library for animations
+- **FlaxObjectPool** - Object pooling for performance
+- **Journal** - In-game console with command handling
+- **ImGui** - Debug GUI overlay
+- **ArizonaFramework** - Ready-to-use game framework
+- **FidelityFX-FSR** - AMD upscaling
+- **DLSS** - NVIDIA upscaling
 
-Install the Vulkan SDK then set an environment variable to provide the path to the SDK prior to running GenerateProjectFiles.bat: `set VULKAN_SDK=%sdk_path%`.
+## Tech Stack
 
-* `The NuGetSdkResolver did not resolve this SDK`
+- **Engine**: Flax Engine 1.11 (Build 6810)
+- **Language**: C# (primary), C++ (engine-level)
+- **Target**: PC / 60fps / Third-person 3D
 
-Install `.NET SDK`, `NuGet package manager` and `NuGet targets and build tasks` in Visual Studio components.
+## Credits
 
-## Workspace directory
+- [Flax Engine](https://flaxengine.com) - High quality modern 3D game engine
+- [Claude-Code-Game-Studios](https://github.com/Donchitos/Claude-Code-Game-Studios) - Original multi-agent game dev framework
+- [awesome-flax](https://github.com/kacevoid/awesome-flax) - Curated Flax Engine resources
 
-- **Binaries/** - executable files
-  - **Editor/** - Flax Editor binaries
-  - **Tools/** - tools binaries
-- **Cache/** - local data cache folder used by the engine and tools
-  - **Intermediate/** - intermediate files and cache for engine build
-    - ***ProjectName*/** - per-project build cache data
-    - **Deps/** - Flax.Build dependencies building cache
-  - **Projects/** - project files location
-- **Content/** - assets and binary files used by the engine and editor
-- **Development/** - engine development files
-  - **Scripts/** - utility scripts
-- **Source/** - source code location
-  - **Editor/** - Flax Editor source code
-  - **Engine/** - Flax Engine source code
-  - **Platforms/** - per-platform sources and dependency files
-    - **DotNet/** - C# dependencies
-    - **Editor/** - Flax Editor binaries
-    - ***PlatformName*/** - per-platform files
-      - **Binaries/** - per-platform binaries
-        - **Game/** - Flax Game binaries
-        - **ThirdParty/** - prebuilt 3rd Party binaries
-  - **Shaders/** - shaders source code
-  - **ThirdParty/** - 3rd Party source code
-  - **Tools/** - development tools source code
+## License
 
-# Licensing and Contributions
+Game studio framework files (`.claude/`, `GameProject/`, `design/`, `production/`, `	ests/`, `prototypes/`, `	ools/`) are provided as-is for use with Claude Code.
 
-Using Flax source code is strictly governed by the Flax Engine End User License Agreement. If you don't agree to those terms, as amended from time to time, you are not permitted to access or use Flax Engine.
-
-We welcome any contributions to Flax Engine development through pull requests on GitHub. Most of our active development is in the master branch, so we prefer to take pull requests there (particularly for new features). We try to make sure that all new code adheres to the Flax coding standards. All contributions are governed by the terms of the [EULA](https://flaxengine.com/licensing/).
-
-## SAST Tools
-
-[PVS-Studio](https://pvs-studio.com/en/pvs-studio/?utm_source=website&utm_medium=github&utm_campaign=open_source) - static analyzer for C, C++, C#, and Java code.
+Flax Engine source code is governed by the [Flax Engine EULA](https://flaxengine.com/licensing/).
