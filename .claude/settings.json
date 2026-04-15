@@ -1,0 +1,57 @@
+{
+  "permissions": {
+    "allow": [
+      "git status",
+      "git log",
+      "git diff",
+      "git branch",
+      "dotnet build",
+      "dotnet test",
+      "msbuild"
+    ],
+    "deny": [
+      "git push --force",
+      "rm -rf",
+      "Remove-Item -Recurse -Force /",
+      "cat .env",
+      "type .env"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "type": "command",
+        "command": "bash .claude/hooks/validate-commit.sh \"$TOOL_INPUT\"",
+        "triggers": ["Bash"]
+      },
+      {
+        "type": "command",
+        "command": "bash .claude/hooks/validate-push.sh \"$TOOL_INPUT\"",
+        "triggers": ["Bash"]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "type": "command",
+        "command": "bash .claude/hooks/validate-assets.sh \"$TOOL_INPUT\"",
+        "triggers": ["Write", "Edit"]
+      }
+    ],
+    "SessionStart": [
+      {
+        "type": "command",
+        "command": "bash .claude/hooks/session-start.sh"
+      },
+      {
+        "type": "command",
+        "command": "bash .claude/hooks/detect-gaps.sh"
+      }
+    ],
+    "SessionStop": [
+      {
+        "type": "command",
+        "command": "bash .claude/hooks/session-stop.sh"
+      }
+    ]
+  }
+}
